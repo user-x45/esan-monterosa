@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北の大自然リゾート 恵山モンテローザ【公式】</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Noto+Serif+JP:wght@300;400;600;700;900&family=Shippori+Mincho:wght@400;600;800&family=DotGothic16&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            100: '#fdf8e6',
+                            300: '#f6e098',
+                            500: '#d4af37',
+                            600: '#b89428',
+                            700: '#94741c',
+                            900: '#54400a'
+                        },
+                        bordeaux: {
+                            800: '#4a0e17',
+                            900: '#2d060b'
+                        },
+                        emeraldDeep: '#06281e'
+                    },
+                    fontFamily: {
+                        serif: ['"Noto Serif JP"', '"Shippori Mincho"', 'serif'],
+                        cinzel: ['"Cinzel"', 'serif'],
+                        dot: ['"DotGothic16"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Customizations & Keyframes */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fff2be 0%, #d4af37 50%, #aa7c11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-gradient {
+            border-image: linear-gradient(to right, #d4af37, #fdf8e6, #aa7c11) 1;
+        }
+
+        /* Retro Mode Styles */
+        .retro-mode {
+            font-family: 'DotGothic16', 'MS PGothic', sans-serif !important;
+            background-color: #000080 !important;
+            color: #ffff00 !important;
+        }
+
+        .retro-mode .retro-hide {
+            display: none !important;
+        }
+
+        .retro-mode .retro-border {
+            border: 3px outset #c0c0c0;
+            background-color: #008080;
+            color: #ffffff;
+        }
+
+        .retro-box {
+            background-color: #c0c0c0;
+            border: 3px inset #ffffff;
+            color: #000000;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-serif antialiased selection:bg-gold-500 selection:text-slate-950 min-h-screen flex flex-col justify-between" id="appBody">
+
+    <!-- TOP MARQUEE / RETRO BANNER -->
+    <div id="topAnnouncementBar" class="bg-gradient-to-r from-bordeaux-900 via-amber-900 to-bordeaux-900 text-gold-300 py-2 px-4 text-xs md:text-sm border-b border-gold-500/30">
+        <div class="max-w-7xl mx-mx-auto flex flex-col md:flex-row justify-between items-center gap-2 px-2 text-center md:text-left">
+            <div class="flex items-center gap-2">
+                <span class="inline-block px-2 py-0.5 bg-gold-500 text-slate-950 text-xs font-bold rounded">バブルの夢</span>
+                <span>北海道・函館 恵山山麓に誕生した総予算300億円の大規模複合リゾート</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <!-- Sound Toggle -->
+                <button id="soundToggleBtn" onclick="toggleAudio()" class="hover:text-white transition flex items-center gap-1.5 text-xs bg-slate-800/80 px-2.5 py-1 rounded border border-gold-500/30">
+                    <i class="fa-solid fa-volume-xmark text-gold-500" id="soundIcon"></i>
+                    <span id="soundLabel">BGM: OFF</span>
+                </button>
+                <!-- Retro Era Switch -->
+                <button onclick="toggleRetroMode()" class="hover:opacity-90 transition flex items-center gap-1.5 text-xs bg-gradient-to-r from-gold-600 to-gold-500 text-slate-950 font-bold px-3 py-1 rounded shadow-md">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span id="retroBtnText">90年代当時風サイトに切替</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RETRO MODE MARQUEE (Initially Hidden) -->
+    <div id="retroMarqueeContainer" class="hidden bg-black text-lime-400 font-dot py-1 text-sm border-b-2 border-yellow-400">
+        <marquee behavior="scroll" direction="left" scrollamount="6">
+            ★☆★ ようこそ！恵山モンテローザ公式ホームページへ！黄金の金龍閣＆全天候ドームプール＆45m黄金涅槃像でお出迎え！天然温泉で極上の癒やしを！電話予約受付中 TEL: 0138-XX-XXXX ★☆★ キリバンGETの方は掲示板にカキコお願いします！
+        </marquee>
+    </div>
+
+    <!-- MAIN HEADER NAV -->
+    <header class="sticky top-0 z-50 glass-panel transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-full border-2 border-gold-500 flex items-center justify-center bg-bordeaux-900 shadow-lg group-hover:scale-105 transition transform">
+                    <i class="fa-solid fa-mountain-sun text-gold-300 text-xl"></i>
+                </div>
+                <div>
+                    <span class="block text-xl font-bold tracking-widest font-cinzel text-slate-100 group-hover:text-gold-300 transition">ESAN MONTE ROSA</span>
+                    <span class="block text-xs text-gold-500 tracking-wider font-serif">恵山モンテローザ リゾート</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-medium tracking-wide">
+                <a href="#concept" class="hover:text-gold-300 transition text-slate-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-gem text-xs text-gold-500"></i>コンセプト
+                </a>
+                <a href="#facilities" class="hover:text-gold-300 transition text-slate-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-hotel text-xs text-gold-500"></i>豪華施設
+                </a>
+                <a href="#kinryukaku" class="hover:text-gold-300 transition text-slate-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-torii-gate text-xs text-gold-500"></i>金龍閣・仏像
+                </a>
+                <a href="#onsen" class="hover:text-gold-300 transition text-slate-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-hot-tub-person text-xs text-gold-500"></i>恵山天然温泉
+                </a>
+                <a href="#booking" class="hover:text-gold-300 transition text-slate-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-calendar-check text-xs text-gold-500"></i>ご宿泊予約
+                </a>
+            </nav>
+
+            <!-- CTA Header Button -->
+            <div class="hidden sm:flex items-center gap-3">
+                <a href="#booking" class="bg-gradient-to-r from-gold-500 to-gold-700 hover:from-gold-400 hover:to-gold-600 text-slate-950 font-bold px-5 py-2.5 rounded shadow-lg shadow-gold-500/10 hover:shadow-gold-500/30 transition duration-300 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-bell-concierge"></i>
+                    宿泊プランを見る
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleMobileMenu()" class="lg:hidden text-gold-400 hover:text-white text-2xl p-2" aria-label="Menu">
+                <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-gold-500/20 bg-slate-950/95 px-6 py-6 space-y-4">
+            <a href="#concept" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold-400 py-2 border-b border-slate-800"><i class="fa-solid fa-gem text-gold-500 mr-2"></i>コンセプト</a>
+            <a href="#facilities" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold-400 py-2 border-b border-slate-800"><i class="fa-solid fa-hotel text-gold-500 mr-2"></i>豪華施設</a>
+            <a href="#kinryukaku" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold-400 py-2 border-b border-slate-800"><i class="fa-solid fa-torii-gate text-gold-500 mr-2"></i>金龍閣・釈迦涅槃像</a>
+            <a href="#onsen" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold-400 py-2 border-b border-slate-800"><i class="fa-solid fa-hot-tub-person text-gold-500 mr-2"></i>恵山天然温泉</a>
+            <a href="#booking" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold-400 py-2 border-b border-slate-800"><i class="fa-solid fa-calendar-check text-gold-500 mr-2"></i>ご宿泊予約</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden py-16">
+        <!-- SVG Graphic Dynamic Background representing Mt. Esan & Golden Pagoda -->
+        <div class="absolute inset-0 z-0 opacity-40">
+            <svg class="w-full h-full object-cover" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#2d060b" />
+                        <stop offset="50%" stop-color="#0f172a" />
+                        <stop offset="100%" stop-color="#06281e" />
+                    </linearGradient>
+                    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#fdf8e6" stop-opacity="0.8" />
+                        <stop offset="50%" stop-color="#d4af37" stop-opacity="0.5" />
+                        <stop offset="100%" stop-color="#54400a" stop-opacity="0.2" />
+                    </linearGradient>
+                </defs>
+                <!-- Sky backdrop -->
+                <rect width="1440" height="900" fill="url(#skyGrad)" />
+                <!-- Mountain contours (Mt. Esan) -->
+                <path d="M-100 650 L300 350 L700 550 L1100 280 L1600 700 L1600 900 L-100 900 Z" fill="#1e293b" opacity="0.6"/>
+                <path d="M-100 750 L450 480 L900 680 L1500 420 L1700 900 L-100 900 Z" fill="#0f172a" opacity="0.8"/>
+                <!-- Golden Pagoda Silhouette -->
+                <g opacity="0.35" transform="translate(950, 320) scale(1.2)">
+                    <rect x="80" y="200" width="140" height="120" fill="url(#goldGrad)"/>
+                    <path d="M50 200 L150 140 L250 200 Z" fill="#d4af37"/>
+                    <rect x="95" y="100" width="110" height="40" fill="url(#goldGrad)"/>
+                    <path d="M70 100 L150 50 L230 100 Z" fill="#d4af37"/>
+                    <line x1="150" y1="50" x2="150" y2="10" stroke="#fdf8e6" stroke-width="4"/>
+                </g>
+                <!-- Glowing Stars / Sparkles -->
+                <circle cx="200" cy="150" r="2" fill="#ffd700" />
+                <circle cx="500" cy="100" r="3" fill="#ffffff" />
+                <circle cx="850" cy="220" r="2.5" fill="#ffd700" />
+                <circle cx="1200" cy="130" r="2" fill="#ffffff" />
+            </svg>
+        </div>
+
+        <!-- Hero Decorative Grid Mask -->
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-slate-950/60 to-slate-950"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 text-center space-y-8">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/80 border border-gold-500/40 text-gold-300 text-xs md:text-sm tracking-widest uppercase backdrop-blur-md shadow-inner">
+                <i class="fa-solid fa-crown text-gold-500"></i> 昭和バブルの最高峰リゾート・夢の超巨大複合施設
+            </div>
+
+            <!-- Title -->
+            <div class="space-y-4">
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight font-serif leading-tight">
+                    <span class="block text-slate-100">大自然に包まれる</span>
+                    <span class="gold-gradient-text">恵山モンテローザ</span>
+                </h1>
+                <p class="text-lg md:text-2xl text-slate-300 max-w-3xl mx-auto font-light leading-relaxed">
+                    総予算<span class="text-gold-400 font-bold">300億円</span>。北海道・函館の雄大な恵山山麓に描かれた、西洋アルプスと東洋美術が交差する伝説のビッグリゾート。
+                </p>
+            </div>
+
+            <!-- Key Features Stats Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-6">
+                <div class="glass-panel p-4 rounded-xl border border-gold-500/20">
+                    <div class="text-gold-400 text-2xl font-bold font-cinzel">金龍閣</div>
+                    <div class="text-xs text-slate-400 mt-1">金閣寺を再現した絢爛楼閣</div>
+                </div>
+                <div class="glass-panel p-4 rounded-xl border border-gold-500/20">
+                    <div class="text-gold-400 text-2xl font-bold font-cinzel">45m 涅槃像</div>
+                    <div class="text-xs text-slate-400 mt-1">圧倒的スケールの黄金釈迦像</div>
+                </div>
+                <div class="glass-panel p-4 rounded-xl border border-gold-500/20">
+                    <div class="text-gold-400 text-2xl font-bold font-cinzel">温水ドーム</div>
+                    <div class="text-xs text-slate-400 mt-1">凱旋門＆噴水プール施設</div>
+                </div>
+                <div class="glass-panel p-4 rounded-xl border border-gold-500/20">
+                    <div class="text-gold-400 text-2xl font-bold font-cinzel">恵山温泉</div>
+                    <div class="text-xs text-slate-400 mt-1">活火山が恵む秘湯・雲上の湯</div>
+                </div>
+            </div>
+
+            <!-- Hero Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <a href="#booking" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-gold-500 via-gold-600 to-amber-700 text-slate-950 font-extrabold text-lg rounded-xl shadow-xl hover:shadow-gold-500/20 transform hover:-translate-y-0.5 transition duration-200">
+                    <i class="fa-solid fa-key mr-2"></i>ご宿泊プランを体験予約
+                </a>
+                <a href="#facilities" class="w-full sm:w-auto px-8 py-4 glass-panel border border-gold-500/40 text-gold-300 font-bold text-lg rounded-xl hover:bg-gold-500/10 transition duration-200">
+                    <i class="fa-solid fa-map-location-dot mr-2"></i>施設マップを見る
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONCEPT SECTION -->
+    <section id="concept" class="py-20 bg-slate-900/60 border-t border-b border-gold-500/10 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-3 mb-16">
+                <span class="text-gold-500 text-sm tracking-widest font-bold uppercase font-cinzel">ABOUT RESORT</span>
+                <h2 class="text-3xl md:text-5xl font-bold font-serif gold-gradient-text">コンセプト＆リゾートの軌跡</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Text Story -->
+                <div class="space-y-6 text-slate-300 leading-relaxed font-serif">
+                    <p class="text-lg text-slate-200">
+                        1988年（昭和63年）、バブル全盛期の熱気に包まれた北海道。札幌の鉄鋼メーカー三井により、旧恵山高原ホテルを買収してスタートした超大型リゾート構想——それが<strong class="text-gold-400">「恵山モンテローザ」</strong>です。
+                    </p>
+                    <p>
+                        スイスの名峰「モンテローザ」のヨーロッパ高山リゾートの煌びやかさと、日本の伝統建築・仏教美術が融合した前代未聞の空間。館内にはレッドカーペットが敷き詰められ、古代ギリシャ風の彫刻像、巨大なドーム型温水プール、そして純金に輝く金龍閣が鎮座します。
+                    </p>
+                    <p class="border-l-2 border-gold-500 pl-4 py-1 italic text-gold-200/90 bg-gold-500/5 rounded-r">
+                        「大自然に包まれ、今まで気づかなかった本当の自分に出会える場所」—— 当時発行されたパンフレットに刻まれた言葉の通り、非日常の極限を追求したラグジュアリーリゾートです。
+                    </p>
+                </div>
+
+                <!-- Feature Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="glass-panel p-6 rounded-xl border border-gold-500/20 hover:border-gold-500/50 transition">
+                        <div class="w-12 h-12 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-2xl mb-4">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-100 mb-2 font-serif">70億円超の初期投資</h3>
+                        <p class="text-xs text-slate-400">第一期工事予算300億円のうち、約70億円を注ぎ込んで造り上げられた豪華絢爛な建築美。</p>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-xl border border-gold-500/20 hover:border-gold-500/50 transition">
+                        <div class="w-12 h-12 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-2xl mb-4">
+                            <i class="fa-solid fa-[#00ffcc] fa-water text-gold-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-100 mb-2 font-serif">全天候ドームプール</h3>
+                        <p class="text-xs text-slate-400">ヨーロッパ風の凱旋門と大噴水を備えた一年中楽しめるドーム型温水プール。</p>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-xl border border-gold-500/20 hover:border-gold-500/50 transition">
+                        <div class="w-12 h-12 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-2xl mb-4">
+                            <i class="fa-solid fa-place-of-worship"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-100 mb-2 font-serif">金龍閣・釈迦像</h3>
+                        <p class="text-xs text-slate-400">金閣寺をモチーフとした金龍閣と全長45メートルを誇る黄金釈迦涅槃像。</p>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-xl border border-gold-500/20 hover:border-gold-500/50 transition">
+                        <div class="w-12 h-12 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-2xl mb-4">
+                            <i class="fa-solid fa-volcano"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-100 mb-2 font-serif">恵山火山天然温泉</h3>
+                        <p class="text-xs text-slate-400">活火山「恵山」の豊富な地熱から湧き出る源泉掛け流しの名湯と絶景露天風呂。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FACILITIES SECTION -->
+    <section id="facilities" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-3 mb-16">
+                <span class="text-gold-500 text-sm tracking-widest font-bold uppercase font-cinzel">LUXURY FACILITIES</span>
+                <h2 class="text-3xl md:text-5xl font-bold font-serif gold-gradient-text">館内・アトラクション施設案内</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto text-sm">夢のような非日常を体験できる多彩なハイエンド施設をご堪能いただけます。</p>
+            </div>
+
+            <!-- Facilities Interactive Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Facility Card 1: Main Hotel -->
+                <div class="glass-panel rounded-2xl overflow-hidden border border-gold-500/20 hover:border-gold-500/60 transition group flex flex-col justify-between">
+                    <div>
+                        <!-- Header SVG Graphic -->
+                        <div class="h-48 bg-gradient-to-br from-bordeaux-900 to-slate-900 relative flex items-center justify-center overflow-hidden">
+                            <div class="absolute inset-0 opacity-20 group-hover:scale-110 transition duration-500">
+                                <svg class="w-full h-full" viewBox="0 0 400 200" fill="none">
+                                    <rect x="50" y="40" width="300" height="120" stroke="#d4af37" stroke-width="2"/>
+                                    <line x1="50" y1="80" x2="350" y2="80" stroke="#d4af37" stroke-dasharray="4"/>
+                                    <line x1="50" y1="120" x2="350" y2="120" stroke="#d4af37" stroke-dasharray="4"/>
+                                </svg>
+                            </div>
+                            <div class="text-center z-10 p-4">
+                                <div class="w-16 h-16 rounded-full bg-gold-500/20 border border-gold-400 mx-auto flex items-center justify-center text-gold-300 text-3xl mb-2">
+                                    <i class="fa-solid fa-hotel"></i>
+                                </div>
+                                <span class="text-xs text-gold-400 font-cinzel tracking-widest uppercase">MAIN HOTEL BUILDING</span>
+                            </div>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <h3 class="text-2xl font-bold font-serif text-slate-100 group-hover:text-gold-300 transition">恵山高原ホテル本館</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                レッドカーペットが敷き詰められた豪華なロビー、アンティーク家具が輝く電話ボックスや大広間。伝統のホスピタリティでお客様をお迎えします。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="openFacilityModal('hotel')" class="w-full py-2.5 rounded-lg border border-gold-500/40 text-gold-300 hover:bg-gold-500 hover:text-slate-950 font-bold transition text-xs tracking-wider uppercase">
+                            詳細を見る <i class="fa-solid fa-chevron-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Facility Card 2: Indoor Riviera Dome Pool -->
+                <div class="glass-panel rounded-2xl overflow-hidden border border-gold-500/20 hover:border-gold-500/60 transition group flex flex-col justify-between">
+                    <div>
+                        <div class="h-48 bg-gradient-to-br from-cyan-950 to-slate-900 relative flex items-center justify-center overflow-hidden">
+                            <div class="absolute inset-0 opacity-20 group-hover:scale-110 transition duration-500">
+                                <svg class="w-full h-full" viewBox="0 0 400 200" fill="none">
+                                    <path d="M100 180 Q 200 40 300 180" stroke="#38bdf8" stroke-width="3" fill="none"/>
+                                    <circle cx="200" cy="130" r="25" stroke="#38bdf8" stroke-dasharray="3"/>
+                                </svg>
+                            </div>
+                            <div class="text-center z-10 p-4">
+                                <div class="w-16 h-16 rounded-full bg-cyan-500/20 border border-cyan-400 mx-auto flex items-center justify-center text-cyan-300 text-3xl mb-2">
+                                    <i class="fa-solid fa-water-ladder"></i>
+                                </div>
+                                <span class="text-xs text-cyan-400 font-cinzel tracking-widest uppercase">ALL-WEATHER DOME POOL</span>
+                            </div>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <h3 class="text-2xl font-bold font-serif text-slate-100 group-hover:text-gold-300 transition">全天候型リビエラプール</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                西洋風のミニ凱旋門、ヨーロッパ神殿調の柱列、ダイナミックな噴水ショー。一年中常夏気分を味わえる豪華温水ドーム施設。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="openFacilityModal('pool')" class="w-full py-2.5 rounded-lg border border-gold-500/40 text-gold-300 hover:bg-gold-500 hover:text-slate-950 font-bold transition text-xs tracking-wider uppercase">
+                            詳細を見る <i class="fa-solid fa-chevron-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Facility Card 3: Kinryukaku & Monuments -->
+                <div class="glass-panel rounded-2xl overflow-hidden border border-gold-500/20 hover:border-gold-500/60 transition group flex flex-col justify-between">
+                    <div>
+                        <div class="h-48 bg-gradient-to-br from-amber-950 to-slate-900 relative flex items-center justify-center overflow-hidden">
+                            <div class="absolute inset-0 opacity-20 group-hover:scale-110 transition duration-500">
+                                <svg class="w-full h-full" viewBox="0 0 400 200" fill="none">
+                                    <path d="M150 150 L200 80 L250 150 Z" stroke="#ffd700" stroke-width="2"/>
+                                    <rect x="175" y="110" width="50" height="40" fill="#ffd700" opacity="0.3"/>
+                                </svg>
+                            </div>
+                            <div class="text-center z-10 p-4">
+                                <div class="w-16 h-16 rounded-full bg-amber-500/20 border border-amber-400 mx-auto flex items-center justify-center text-amber-300 text-3xl mb-2">
+                                    <i class="fa-solid fa-torii-gate"></i>
+                                </div>
+                                <span class="text-xs text-amber-400 font-cinzel tracking-widest uppercase">GOLDEN MONUMENTS</span>
+                            </div>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <h3 class="text-2xl font-bold font-serif text-slate-100 group-hover:text-gold-300 transition">金龍閣＆黄金涅槃像</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                京都金閣寺をそのまま模した「金龍閣」と、全長45メートルに及ぶ黄金の釈迦涅槃像。圧倒的な黄金の輝きが訪れる者を圧倒します。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="openFacilityModal('monuments')" class="w-full py-2.5 rounded-lg border border-gold-500/40 text-gold-300 hover:bg-gold-500 hover:text-slate-950 font-bold transition text-xs tracking-wider uppercase">
+                            詳細を見る <i class="fa-solid fa-chevron-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- KINRYUKAKU SPOTLIGHT SECTION -->
+    <section id="kinryukaku" class="py-20 bg-gradient-to-b from-slate-950 via-bordeaux-950/40 to-slate-950 border-t border-b border-gold-500/20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Visual SVG Representation of Kinryukaku -->
+                <div class="relative flex justify-center">
+                    <div class="w-full max-w-lg aspect-square rounded-2xl glass-panel p-6 border-2 border-gold-500/40 flex flex-col justify-between shadow-2xl relative overflow-hidden group">
+                        <!-- Glow effect -->
+                        <div class="absolute -top-24 -left-24 w-60 h-60 bg-gold-500/20 rounded-full blur-3xl group-hover:bg-gold-500/30 transition"></div>
+                        
+                        <div class="text-center pt-4">
+                            <span class="text-xs tracking-widest text-gold-400 uppercase font-cinzel">ROYAL ARCHITECTURE</span>
+                            <h3 class="text-2xl font-bold font-serif text-gold-300 mt-1">金閣寺レプリカ「金龍閣」</h3>
+                        </div>
+
+                        <!-- Pagoda Illustration -->
+                        <div class="my-auto py-6 flex justify-center">
+                            <svg class="w-64 h-64 text-gold-400 drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Base Pond -->
+                                <ellipse cx="100" cy="180" rx="90" ry="12" fill="#1e293b" stroke="#d4af37" stroke-width="1.5"/>
+                                <!-- Tier 1 -->
+                                <rect x="55" y="130" width="90" height="40" fill="#aa7c11" stroke="#fdf8e6" stroke-width="1.5"/>
+                                <path d="M35 130 L100 100 L165 130 Z" fill="#d4af37" stroke="#fff" stroke-width="1"/>
+                                <!-- Tier 2 -->
+                                <rect x="65" y="85" width="70" height="30" fill="#ffd700" stroke="#fdf8e6" stroke-width="1.5"/>
+                                <path d="M45 85 L100 60 L155 85 Z" fill="#d4af37" stroke="#fff" stroke-width="1"/>
+                                <!-- Tier 3 Top Roof -->
+                                <path d="M55 55 L100 30 L145 55 Z" fill="#fdf8e6" stroke="#d4af37" stroke-width="1.5"/>
+                                <!-- Spire & Phoenix -->
+                                <line x1="100" y1="30" x2="100" y2="10" stroke="#ffd700" stroke-width="3"/>
+                                <polygon points="100,5 95,12 105,12" fill="#ffd700"/>
+                            </svg>
+                        </div>
+
+                        <div class="bg-slate-950/80 p-4 rounded-xl border border-gold-500/20 text-center">
+                            <p class="text-xs text-gold-300 font-serif">70億円の一部が投じられた総金箔調の豪華建築。「金龍閣」として当時の参拝客に大いに親しまれました。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Content & Specs -->
+                <div class="space-y-6">
+                    <div class="inline-block px-3 py-1 bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs rounded-full font-bold">
+                        豪華文化遺産モニュメント
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold font-serif leading-tight">
+                        北の大地に輝く<br>
+                        <span class="gold-gradient-text">黄金の金龍閣と釈迦大涅槃像</span>
+                    </h2>
+                    <p class="text-slate-300 leading-relaxed font-serif">
+                        恵山モンテローザの広大な敷地内には、バブル期の豊かさとロマンを象徴する2大モニュメントが佇みます。京都の金閣寺を細部まで忠実に再現した「金龍閣」と、全長45メートルという国内最大級スケールの「黄金釈迦涅槃像」。
+                    </p>
+
+                    <!-- Details List -->
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-4 p-4 rounded-xl glass-panel border border-gold-500/20">
+                            <div class="w-10 h-10 rounded-full bg-gold-500/20 flex items-center justify-center text-gold-400 font-bold shrink-0">1</div>
+                            <div>
+                                <h4 class="font-bold text-slate-100 font-serif">金龍閣（金閣寺レプリカ）</h4>
+                                <p class="text-xs text-slate-400 mt-1">池のほとりに佇む3層構造の絢爛な楼閣。四季折々の恵山の自然と黄金の対比が絶景を生み出します。</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl glass-panel border border-gold-500/20">
+                            <div class="w-10 h-10 rounded-full bg-gold-500/20 flex items-center justify-center text-gold-400 font-bold shrink-0">2</div>
+                            <div>
+                                <h4 class="font-bold text-slate-100 font-serif">全長45m 黄金釈迦涅槃像</h4>
+                                <p class="text-xs text-slate-400 mt-1">横たわる黄金のお釈迦様。静寂の恵山高原に優しく微笑む姿は、見る者の心を惹きつけて止みません。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ONSEN SECTION -->
+    <section id="onsen" class="py-20 relative bg-slate-900/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-3 mb-16">
+                <span class="text-gold-500 text-sm tracking-widest font-bold uppercase font-cinzel">NATURAL HOT SPRING</span>
+                <h2 class="text-3xl md:text-5xl font-bold font-serif gold-gradient-text">恵山地熱温泉・雲上の湯</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto text-sm">活火山「恵山」の恵みを受けた秘湯。大地から沸き立つ豊かな源泉で至福のひとときを。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Onsen Feature 1 -->
+                <div class="glass-panel p-8 rounded-2xl border border-gold-500/20 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gold-400 font-bold tracking-widest uppercase">MAIN BATH</span>
+                        <i class="fa-solid fa-bath text-gold-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold font-serif text-slate-100">大展望風呂「恵山の湯」</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        広々とした大浴場からは、四季折々の恵山の山肌と太平洋を一望。赤褐色を帯びた質の高い温泉成分が身体の芯まで温めます。
+                    </p>
+                    <div class="pt-4 border-t border-slate-800 grid grid-cols-2 gap-2 text-xs text-slate-400">
+                        <div>泉質：ナトリウム・塩化物温泉</div>
+                        <div>効能：神経痛、疲労回復、冷え性</div>
+                    </div>
+                </div>
+
+                <!-- Onsen Feature 2 -->
+                <div class="glass-panel p-8 rounded-2xl border border-gold-500/20 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gold-400 font-bold tracking-widest uppercase">ROTENBURO</span>
+                        <i class="fa-solid fa-spa text-gold-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold font-serif text-slate-100">庭園露天風呂「雲上」</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        苔むした日本庭園と石灯籠に囲まれた情緒あふれる露天風呂。夜には北海道の澄み渡る満天の星空を眺めながらご入浴いただけます。
+                    </p>
+                    <div class="pt-4 border-t border-slate-800 grid grid-cols-2 gap-2 text-xs text-slate-400">
+                        <div>源泉温度：約65度（加水調整）</div>
+                        <div>利用時間：24時間（清掃時除く）</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOKING SIMULATOR SECTION -->
+    <section id="booking" class="py-20 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative border-t border-gold-500/20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-3 mb-12">
+                <span class="text-gold-500 text-sm tracking-widest font-bold uppercase font-cinzel">RESERVATION SIMULATION</span>
+                <h2 class="text-3xl md:text-5xl font-bold font-serif gold-gradient-text">ご宿泊体験予約シミュレーター</h2>
+                <p class="text-slate-400 text-sm">当時のバブル豪華プランをシミュレーション予約。ご宿泊券の発行が可能です。</p>
+            </div>
+
+            <!-- Booking Card Form -->
+            <div class="glass-panel rounded-3xl p-6 sm:p-10 border-2 border-gold-500/30 shadow-2xl relative">
+                <form id="bookingForm" onsubmit="handleBookingSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <!-- Guest Name -->
+                        <div>
+                            <label class="block text-xs font-bold text-gold-300 uppercase tracking-wider mb-2">お名前（ご代表者）</label>
+                            <input type="text" id="guestName" required placeholder="例：恵山 太郎" class="w-full bg-slate-900/90 border border-gold-500/30 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-gold-400 transition text-sm">
+                        </div>
+
+                        <!-- Check-in Date -->
+                        <div>
+                            <label class="block text-xs font-bold text-gold-300 uppercase tracking-wider mb-2">ご宿泊希望日</label>
+                            <input type="date" id="checkDate" required class="w-full bg-slate-900/90 border border-gold-500/30 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-gold-400 transition text-sm">
+                        </div>
+
+                        <!-- Room Type -->
+                        <div>
+                            <label class="block text-xs font-bold text-gold-300 uppercase tracking-wider mb-2">お部屋タイプ</label>
+                            <select id="roomType" onchange="calculatePrice()" class="w-full bg-slate-900/90 border border-gold-500/30 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-gold-400 transition text-sm">
+                                <option value="royal">ロイヤルスイート（金箔風呂・最上階） - 80,000円/人</option>
+                                <option value="executive">エグゼクティブ和洋室（恵山眺望） - 45,000円/人</option>
+                                <option value="standard">デラックスツイン（プールパス付） - 28,000円/人</option>
+                            </select>
+                        </div>
+
+                        <!-- Guests Count -->
+                        <div>
+                            <label class="block text-xs font-bold text-gold-300 uppercase tracking-wider mb-2">ご利用人数</label>
+                            <select id="guestCount" onchange="calculatePrice()" class="w-full bg-slate-900/90 border border-gold-500/30 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-gold-400 transition text-sm">
+                                <option value="1">1名様</option>
+                                <option value="2" selected>2名様</option>
+                                <option value="3">3名様</option>
+                                <option value="4">4名様</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Additional Special Options -->
+                    <div class="pt-4 border-t border-slate-800">
+                        <label class="block text-xs font-bold text-gold-300 uppercase tracking-wider mb-3">バブル特別追加オプション</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+                            <label class="flex items-center gap-2 p-3 rounded-lg bg-slate-900/50 border border-slate-800 cursor-pointer hover:border-gold-500/30 transition">
+                                <input type="checkbox" id="optDinner" onchange="calculatePrice()" class="rounded border-gold-500 text-gold-500 focus:ring-0" checked>
+                                <span>特選・カニと毛ガニの豪華海鮮会席 (+15,000円/人)</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-3 rounded-lg bg-slate-900/50 border border-slate-800 cursor-pointer hover:border-gold-500/30 transition">
+                                <input type="checkbox" id="optPoolPass" onchange="calculatePrice()" class="rounded border-gold-500 text-gold-500 focus:ring-0" checked>
+                                <span>温水ドームプール VIPフリーパス (+3,000円/人)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Estimated Price Display -->
+                    <div class="bg-gradient-to-r from-bordeaux-950 to-slate-900 p-6 rounded-2xl border border-gold-500/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <span class="text-xs text-slate-400 block">概算ご宿泊料金（1泊・消費税サービス料込）</span>
+                            <div class="text-3xl font-extrabold text-gold-300 font-cinzel mt-1" id="totalPriceDisplay">
+                                ￥126,000
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-gold-500 to-amber-600 hover:from-gold-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-ticket"></i>
+                            宿泊券を無料シミュレーション発行
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACCESS & LOCATION SECTION -->
+    <section class="py-16 bg-slate-950 border-t border-slate-800 text-slate-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4">
+                    <span class="text-gold-500 text-xs tracking-widest font-bold uppercase font-cinzel">ACCESS GUIDE</span>
+                    <h2 class="text-2xl md:text-3xl font-bold font-serif text-slate-100">アクセス＆ロケーション</h2>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        北海道函館市柏野町（旧恵山町）。函館空港・函館駅から車で約60分。太平洋と津軽海峡に抱かれた雄大な恵山国立公園の絶景が広がるロケーションです。
+                    </p>
+                    <div class="space-y-2 text-xs text-slate-300">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-gold-500"></i> 住所：北海道函館市柏野町117番地（旧恵山町）</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-car text-gold-500"></i> 車：JR函館駅より国道278号線経由 約60分</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-plane text-gold-500"></i> 飛行機：函館空港よりタクシー・レンタカーで約45分</div>
+                    </div>
+                </div>
+
+                <!-- Access Visual Badge Map Box -->
+                <div class="glass-panel p-6 rounded-2xl border border-gold-500/20 text-center space-y-3">
+                    <i class="fa-solid fa-map-marked-alt text-4xl text-gold-400"></i>
+                    <h3 class="font-bold text-slate-100 font-serif">恵山国立公園エリア</h3>
+                    <p class="text-xs text-slate-400">恵山つつじ祭りや秋の紅葉など、四季折々の北海道の大自然をお楽しみいただけます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 border-t border-gold-500/20 py-12 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-center">
+            <div class="flex justify-center items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-gold-500/20 border border-gold-500 flex items-center justify-center text-gold-300 text-sm">
+                    <i class="fa-solid fa-mountain-sun"></i>
+                </div>
+                <span class="text-lg font-bold font-cinzel text-slate-200 tracking-widest">ESAN MONTE ROSA</span>
+            </div>
+            <p class="max-w-xl mx-auto text-slate-500 leading-relaxed">
+                ※当ウェブサイトは、かつて北海道函館市（旧恵山町）に存在したリゾート施設「恵山モンテローザ」の歴史とバブル期の夢を記憶・再現したインタラクティブWebアーカイブです。
+            </p>
+            <div class="text-slate-600 border-t border-slate-900 pt-6">
+                &copy; 恵山モンテローザ 1988-1999 Memorial Archive. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- FACILITY MODAL -->
+    <div id="facilityModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-xl w-full rounded-2xl border-2 border-gold-500/40 p-6 space-y-4 relative shadow-2xl animate-fade-in">
+            <button onclick="closeFacilityModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="facilityModalContent" class="space-y-4">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOKING VOUCHER TICKET MODAL -->
+    <div id="ticketModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gradient-to-b from-bordeaux-950 via-slate-900 to-bordeaux-950 max-w-2xl w-full rounded-3xl border-2 border-gold-500 p-8 space-y-6 relative shadow-2xl text-center">
+            <button onclick="closeTicketModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="space-y-2">
+                <div class="inline-block px-3 py-1 bg-gold-500 text-slate-950 text-xs font-bold rounded">1990年代バブル特別宿泊招待券</div>
+                <h3 class="text-3xl font-extrabold font-serif gold-gradient-text">恵山モンテローザ プレミアム券</h3>
+                <p class="text-xs text-gold-300 font-serif">ESAN MONTE ROSA LUXURY RESORT VOUCHER</p>
+            </div>
+
+            <div class="bg-slate-950/80 p-6 rounded-2xl border border-gold-500/30 text-left space-y-3 font-serif">
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                    <span class="text-slate-400 text-xs">ご予約番号:</span>
+                    <span class="text-gold-400 font-bold font-cinzel text-sm" id="vNo">MR-8899201</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                    <span class="text-slate-400 text-xs">ご代表者様:</span>
+                    <span class="text-slate-100 font-bold text-sm" id="vName">恵山 太郎 様</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                    <span class="text-slate-400 text-xs">ご宿泊日程:</span>
+                    <span class="text-slate-100 font-bold text-sm" id="vDate">2026-10-15</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                    <span class="text-slate-400 text-xs">お部屋プラン:</span>
+                    <span class="text-slate-100 font-bold text-sm" id="vRoom">ロイヤルスイート</span>
+                </div>
+                <div class="flex justify-between pt-2">
+                    <span class="text-slate-400 text-xs">合計ご利用金:</span>
+                    <span class="text-gold-300 font-bold font-cinzel text-lg" id="vPrice">￥126,000</span>
+                </div>
+            </div>
+
+            <p class="text-xs text-slate-400 italic">
+                ※この招待券はバブル期の雰囲気を楽しむインタラクティブ・シミュレーションです。実際の予約ではありません。
+            </p>
+
+            <button onclick="closeTicketModal()" class="w-full py-3 bg-gradient-to-r from-gold-500 to-amber-600 text-slate-950 font-bold rounded-xl hover:opacity-90 transition">
+                確認して閉じる
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let audioContext = null;
+        let isAudioPlaying = false;
+        let isRetroMode = false;
+
+        const facilityData = {
+            hotel: {
+                title: "恵山高原ホテル本館",
+                subtitle: "メインホスピタリティタワー",
+                icon: "fa-hotel",
+                description: "バブル全盛期の贅を凝らしたインテリアが各所に施されたメインタワー。エントランスから続く鮮やかなレッドカーペットの廊下、クラシック調の高級調度品、豪華なシャンデリアが至高のステイをお約束します。",
+                details: ["赤カーペット敷きの重厚なロビー", "アンティーク調電話ボックス", "宴会場・大広間完備", "高級客室全100室以上"]
+            },
+            pool: {
+                title: "全天候型ドームプール",
+                subtitle: "室内温水リビエラリゾート",
+                icon: "fa-water-ladder",
+                description: "北の大地北海道にありながら、一年中常夏の温水プールをたのしめるドーム型施設。中央に屹立するヨーロッパ調のミニ凱旋門、壮大な噴水ショーが南国の雰囲気を演出します。",
+                details: ["ドーム型全天候温水プール", "ヨーロッパ風ミニ凱旋門モニュメント", "時限式ダイナミック噴水", "プールサイドカフェテラス"]
+            },
+            monuments: {
+                title: "金龍閣・黄金釈迦涅槃像",
+                subtitle: "純金箔調の豪華建築＆大佛像",
+                icon: "fa-torii-gate",
+                description: "京都の金閣寺を精巧に再現した「金龍閣」と、全長45メートルを誇る超巨大な黄金釈迦涅槃像。当時の最先端技術と巨額の予算が投入された、恵山モンテローザの象徴的モニュメントです。",
+                details: ["金閣寺レプリカ「金龍閣」", "全長45m 黄金釈迦涅槃像", "日本庭園・石灯籠エリア", "日本古来と西洋美の融合"]
+            }
+        };
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function toggleRetroMode() {
+            isRetroMode = !isRetroMode;
+            const body = document.getElementById('appBody');
+            const marquee = document.getElementById('retroMarqueeContainer');
+            const btnText = document.getElementById('retroBtnText');
+
+            if (isRetroMode) {
+                body.classList.add('retro-mode');
+                marquee.classList.remove('hidden');
+                btnText.textContent = "現代版Webサイトに戻す";
+            } else {
+                body.classList.remove('retro-mode');
+                marquee.classList.add('hidden');
+                btnText.textContent = "90年代当時風サイトに切替";
+            }
+        }
+
+        function toggleAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            const icon = document.getElementById('soundIcon');
+            const label = document.getElementById('soundLabel');
+
+            if (!isAudioPlaying) {
+                // Play relaxing ambient white noise / low synth frequency
+                startAmbientSound();
+                isAudioPlaying = true;
+                icon.className = "fa-solid fa-volume-high text-green-400";
+                label.textContent = "BGM: ON";
+            } else {
+                stopAmbientSound();
+                isAudioPlaying = false;
+                icon.className = "fa-solid fa-volume-xmark text-gold-500";
+                label.textContent = "BGM: OFF";
+            }
+        }
+
+        let synthNodes = [];
+
+        function startAmbientSound() {
+            if (!audioContext) return;
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+
+            // Create gentle stream sound using noise + lowpass filter
+            const bufferSize = audioContext.sampleRate * 2;
+            const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const whiteNoise = audioContext.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            whiteNoise.loop = true;
+
+            const filter = audioContext.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(400, audioContext.currentTime);
+
+            const gain = audioContext.createGain();
+            gain.gain.setValueAtTime(0.05, audioContext.currentTime);
+
+            whiteNoise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioContext.destination);
+
+            whiteNoise.start();
+            synthNodes = [whiteNoise, filter, gain];
+        }
+
+        function stopAmbientSound() {
+            if (synthNodes.length) {
+                synthNodes[0].stop();
+                synthNodes = [];
+            }
+        }
+
+        function openFacilityModal(key) {
+            const data = facilityData[key];
+            if (!data) return;
+
+            const content = document.getElementById('facilityModalContent');
+            content.innerHTML = `
+                <div class="flex items-center gap-3 border-b border-gold-500/20 pb-3">
+                    <div class="w-10 h-10 rounded-full bg-gold-500/20 border border-gold-400 flex items-center justify-center text-gold-300 text-xl">
+                        <i class="fa-solid ${data.icon}"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold font-serif text-slate-100">${data.title}</h3>
+                        <p class="text-xs text-gold-400 font-cinzel tracking-widest uppercase">${data.subtitle}</p>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed font-serif">${data.description}</p>
+                <div class="space-y-2 pt-2">
+                    <h4 class="text-xs font-bold text-gold-300 uppercase tracking-wider">主な設備・特長</h4>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-300">
+                        ${data.details.map(item => `<li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-gold-500"></i> ${item}</li>`).join('')}
+                    </ul>
+                </div>
+                <button onclick="closeFacilityModal()" class="w-full mt-4 py-2.5 bg-gold-500 text-slate-950 font-bold rounded-lg hover:bg-gold-400 transition text-sm">
+                    閉じる
+                </button>
+            `;
+
+            document.getElementById('facilityModal').classList.remove('hidden');
+        }
+
+        function closeFacilityModal() {
+            document.getElementById('facilityModal').classList.add('hidden');
+        }
+
+        function calculatePrice() {
+            const roomType = document.getElementById('roomType').value;
+            const guests = parseInt(document.getElementById('guestCount').value) || 1;
+            const optDinner = document.getElementById('optDinner').checked;
+            const optPool = document.getElementById('optPoolPass').checked;
+
+            let basePricePerPerson = 28000;
+            if (roomType === 'royal') basePricePerPerson = 80000;
+            if (roomType === 'executive') basePricePerPerson = 45000;
+
+            let totalPerPerson = basePricePerPerson;
+            if (optDinner) totalPerPerson += 15000;
+            if (optPool) totalPerPerson += 3000;
+
+            const total = totalPerPerson * guests;
+            document.getElementById('totalPriceDisplay').textContent = '￥' + total.toLocaleString();
+            return { total, roomType, guests };
+        }
+
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('guestName').value || "恵山 太郎";
+            const date = document.getElementById('checkDate').value || new Date().toISOString().split('T')[0];
+            const roomSelect = document.getElementById('roomType');
+            const roomText = roomSelect.options[roomSelect.selectedIndex].text.split('-')[0].trim();
+            const calc = calculatePrice();
+
+            // Populate Voucher Modal
+            document.getElementById('vNo').textContent = 'MR-' + Math.floor(1000000 + Math.random() * 9000000);
+            document.getElementById('vName').textContent = name + ' 様';
+            document.getElementById('vDate').textContent = date;
+            document.getElementById('vRoom').textContent = roomText;
+            document.getElementById('vPrice').textContent = '￥' + calc.total.toLocaleString();
+
+            document.getElementById('ticketModal').classList.remove('hidden');
+        }
+
+        function closeTicketModal() {
+            document.getElementById('ticketModal').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            const dateInput = document.getElementById('checkDate');
+            if (dateInput) {
+                const today = new Date();
+                today.setDate(today.getDate() + 14);
+                dateInput.value = today.toISOString().split('T')[0];
+            }
+            calculatePrice();
+        };
+    </script>
+</body>
+</html>
