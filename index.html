@@ -65,25 +65,39 @@
 
         /* Retro Mode Styles */
         .retro-mode {
-            font-family: 'DotGothic16', 'MS PGothic', sans-serif !important;
+            font-family: 'DotGothic16', 'MS PGothic', 'Courier New', monospace !important;
             background-color: #000080 !important;
+            background-image: radial-gradient(#000033 15%, transparent 16%), radial-gradient(#000033 15%, transparent 16%) !important;
+            background-size: 60px 60px !important;
+            background-position: 0 0, 30px 30px !important;
             color: #ffff00 !important;
         }
 
-        .retro-mode .retro-hide {
-            display: none !important;
+        @keyframes retroBlink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
         }
 
-        .retro-mode .retro-border {
-            border: 3px outset #c0c0c0;
+        .blink-text {
+            animation: retroBlink 1s infinite;
+        }
+
+        .retro-table {
+            border: 3px ridge #c0c0c0;
             background-color: #008080;
             color: #ffffff;
         }
 
-        .retro-box {
+        .retro-box-grey {
             background-color: #c0c0c0;
-            border: 3px inset #ffffff;
+            border: 3px outset #ffffff;
             color: #000000;
+        }
+
+        .retro-box-inset {
+            background-color: #000000;
+            border: 3px inset #808080;
+            color: #00ff00;
         }
 
         /* Glassmorphism */
@@ -125,7 +139,7 @@
                 <!-- Retro Era Switch -->
                 <button onclick="toggleRetroMode()" class="hover:opacity-90 transition flex items-center gap-1.5 text-xs bg-gradient-to-r from-gold-600 to-gold-500 text-slate-950 font-bold px-3 py-1 rounded shadow-md">
                     <i class="fa-solid fa-clock-rotate-left"></i>
-                    <span id="retroBtnText">90年代当時風サイトに切替</span>
+                    <span id="retroBtnText">90年代GeoCities風サイトに切替</span>
                 </button>
             </div>
         </div>
@@ -133,11 +147,13 @@
 
     <!-- RETRO MODE MARQUEE (Initially Hidden) -->
     <div id="retroMarqueeContainer" class="hidden bg-black text-lime-400 font-dot py-1 text-sm border-b-2 border-yellow-400">
-        <marquee behavior="scroll" direction="left" scrollamount="6">
-            ★☆★ ようこそ！恵山モンテローザ公式ホームページへ！黄金の金龍閣＆全天候ドームプール＆45m黄金涅槃像でお出迎え！天然温泉で極上の癒やしを！電話予約受付中 TEL: 0138-XX-XXXX ★☆★ キリバンGETの方は掲示板にカキコお願いします！
+        <marquee behavior="scroll" direction="left" scrollamount="7">
+            ★☆★ [祝] 恵山モンテローザ公式ホームページ開設！ 黄金の金龍閣＆全天候ドームプール＆45m黄金涅槃像でお出迎え！ キリバン（77777, 100000）GETの方は掲示板にカキコお願いします！ TEL: 0138-XX-XXXX ★☆★
         </marquee>
     </div>
 
+    <!-- WRAPPER FOR MODERN VIEW -->
+    <div id="modernView">
     <!-- MAIN HEADER NAV -->
     <header class="sticky top-0 z-50 glass-panel transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -685,6 +701,155 @@
             </div>
         </div>
     </section>
+    </div> <!-- END MODERN VIEW -->
+
+    <!-- WRAPPER FOR 1990s GEOCITIES RETRO VIEW -->
+    <div id="retroView" class="hidden font-dot max-w-4xl mx-auto p-4 space-y-6 text-yellow-300">
+        
+        <!-- Retro Header Title Block -->
+        <div class="bg-navy border-4 border-double border-yellow-400 p-4 text-center bg-blue-900">
+            <div class="text-xs text-cyan-300 mb-1">〜 北の大自然に咲くバブルの華 〜</div>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-yellow-300 tracking-widest my-2">
+                ★ 恵山モンテローザ 公式HP ★
+            </h1>
+            <div class="text-sm text-pink-400 font-bold blink-text">
+                ≪ Welcome to Esan Monte Rosa Official Web Site!! ≫
+            </div>
+        </div>
+
+        <!-- Counter & Welcome Table -->
+        <table class="w-full border-2 border-gray-400 bg-gray-300 text-black p-2 text-xs md:text-sm">
+            <tr>
+                <td class="p-2 font-bold text-blue-900">
+                    あなたは <span class="bg-black text-lime-400 font-mono text-base px-2 py-0.5 border border-gray-600">0 0 3 8 9 2 4</span> 人目の訪問者です！<br>
+                    <span class="text-xs text-red-600">※キリバン（39000等）を踏んだ方はBBS（掲示板）にご報告ください！</span>
+                </td>
+                <td class="p-2 text-right">
+                    最終更新日：1993年11月03日<br>
+                    推奨ブラウザ：Netscape 3.0 / IE 4.0
+                </td>
+            </tr>
+        </table>
+
+        <!-- Notice Box -->
+        <div class="border-2 border-red-500 bg-black p-3 text-red-400 text-xs leading-relaxed">
+            <span class="bg-red-600 text-white px-1 font-bold">重要なお知らせ</span> 
+            当リゾート内「金龍閣」および「全天候ドームプール」は本日も絶賛営業中！電話予約受付中（TEL: 0138-XX-XXXX）！
+        </div>
+
+        <!-- 90s Navigation Menu Table -->
+        <div class="bg-teal-800 border-2 border-white p-3">
+            <div class="text-cyan-200 font-bold border-b border-cyan-400 pb-1 mb-3">【 メニュー Index 】</div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs font-bold">
+                <a href="#retro-about" class="bg-gray-300 text-black p-2 border-2 border-outset border-white hover:bg-yellow-200">■ リゾート概要</a>
+                <a href="#retro-attractions" class="bg-gray-300 text-black p-2 border-2 border-outset border-white hover:bg-yellow-200">■ ３大名所（金龍閣）</a>
+                <a href="#retro-bbs" class="bg-gray-300 text-black p-2 border-2 border-outset border-white hover:bg-yellow-200">■ カキコ掲示板(BBS)</a>
+                <a href="#retro-links" class="bg-gray-300 text-black p-2 border-2 border-outset border-white hover:bg-yellow-200">■ 相互リンク集</a>
+            </div>
+        </div>
+
+        <!-- Retro About Section -->
+        <div id="retro-about" class="bg-blue-950 border-2 border-cyan-400 p-4 text-xs md:text-sm space-y-2">
+            <h2 class="text-cyan-300 font-bold text-base border-b border-cyan-500 pb-1 flex items-center gap-2">
+                <span class="text-red-500 blink-text">●</span> 恵山モンテローザとは？（総予算300億円の夢）
+            </h2>
+            <p class="leading-relaxed text-gray-200">
+                北海道・函館の恵山山麓に誕生した総予算300億円の超巨大複合リゾート！スイスのモンテローザをイメージしたヨーロッパ風建築と、日本の金閣寺を再現した「金龍閣」、さらに45メートルの黄金涅槃像が一体となった夢のテーマパークです。
+            </p>
+            <table class="w-full border border-gray-500 text-xs text-left bg-black text-yellow-300 my-2">
+                <tr class="border-b border-gray-700"><th class="p-1.5 bg-blue-900 w-1/4">所在地</th><td class="p-1.5">北海道函館市柏野町117（旧恵山町）</td></tr>
+                <tr class="border-b border-gray-700"><th class="p-1.5 bg-blue-900">主要施設</th><td class="p-1.5">恵山高原ホテル、全天候ドームプール、金龍閣、釈迦涅槃像、恵山温泉</td></tr>
+                <tr><th class="p-1.5 bg-blue-900">オープン</th><td class="p-1.5">1988年（昭和63年）バブル全盛期</td></tr>
+            </table>
+        </div>
+
+        <!-- Retro Attractions Section -->
+        <div id="retro-attractions" class="bg-black border-2 border-yellow-400 p-4 text-xs md:text-sm space-y-4">
+            <h2 class="text-yellow-300 font-bold text-base border-b border-yellow-500 pb-1">
+                ★ 必見！恵山モンテローザの豪華施設 ★
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="bg-gray-300 text-black p-3 border-2 border-white">
+                    <div class="font-bold text-blue-900 text-sm mb-1">【1】金龍閣 (金閣寺)</div>
+                    <p class="text-xs">京都の金閣寺を模した豪華爛漫な楼閣。池のほとりに黄金の輝きを放ちます！</p>
+                </div>
+                <div class="bg-gray-300 text-black p-3 border-2 border-white">
+                    <div class="font-bold text-blue-900 text-sm mb-1">【2】全天候ドームプール</div>
+                    <p class="text-xs">ヨーロッパ風のミニ凱旋門と大噴水！北の大地でも一年中常夏プール！</p>
+                </div>
+                <div class="bg-gray-300 text-black p-3 border-2 border-white">
+                    <div class="font-bold text-blue-900 text-sm mb-1">【3】45m 黄金釈迦像</div>
+                    <p class="text-xs">全長45メートルの超巨大な釈迦涅槃像！拝むだけで金運・開運ご利益！？</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Retro BBS Section -->
+        <div id="retro-bbs" class="bg-teal-950 border-2 border-green-400 p-4 text-xs space-y-3">
+            <h2 class="text-green-300 font-bold text-base border-b border-green-500 pb-1">
+                💬 参拝＆宿泊者のキリバン一言掲示板 (BBS)
+            </h2>
+            <p class="text-gray-300">足跡を残していってください！誹謗中傷や荒らしは禁物です！</p>
+
+            <!-- BBS Form -->
+            <form onsubmit="handleRetroBBS(event)" class="bg-gray-300 text-black p-3 border-2 border-white space-y-2">
+                <div class="flex gap-2 items-center">
+                    <label class="font-bold w-16">ハンドル名:</label>
+                    <input type="text" id="bbsName" required placeholder="例：バブル小僧" class="px-2 py-1 border border-black text-xs flex-1">
+                </div>
+                <div class="flex gap-2 items-center">
+                    <label class="font-bold w-16">メッセージ:</label>
+                    <input type="text" id="bbsMsg" required placeholder="例：金龍閣が凄かったです！キリバンGET！" class="px-2 py-1 border border-black text-xs flex-1">
+                </div>
+                <button type="submit" class="bg-gray-400 hover:bg-gray-500 text-black font-bold px-4 py-1 border-2 border-outset border-white">
+                    [ 送信 / カキコする ]
+                </button>
+            </form>
+
+            <!-- BBS Message List -->
+            <div id="bbsList" class="space-y-2 pt-2">
+                <div class="bg-black text-lime-300 p-2 border border-green-600">
+                    <div class="text-yellow-300 font-bold">[003] 投稿者：函館のドライブ好き 投稿日：1993/10/28</div>
+                    <div>ドームプールの凱旋門前で記念撮影しました！温泉も温かくて最高〜！</div>
+                </div>
+                <div class="bg-black text-lime-300 p-2 border border-green-600">
+                    <div class="text-yellow-300 font-bold">[002] 投稿者：金閣寺マニア 投稿日：1993/10/15</div>
+                    <div>金龍閣の金色が想像以上に輝いててビビったｗｗ 45mの涅槃像もでかい！</div>
+                </div>
+                <div class="bg-black text-lime-300 p-2 border border-green-600">
+                    <div class="text-yellow-300 font-bold">[001] 投稿者：管理人 投稿日：1993/09/01</div>
+                    <div>恵山モンテローザ公式HPへようこそ！皆様のカキコお待ちしております。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Retro Links & Badges Section -->
+        <div id="retro-links" class="bg-black border-2 border-pink-500 p-4 text-xs space-y-3 text-center">
+            <h2 class="text-pink-400 font-bold text-sm border-b border-pink-500 pb-1">
+                🔗 相互リンク＆おすすめWebサイト
+            </h2>
+            <div class="flex flex-wrap justify-center gap-3 py-2 text-black font-bold">
+                <span class="bg-yellow-300 border-2 border-white px-2 py-1">Yahoo! JAPAN</span>
+                <span class="bg-cyan-300 border-2 border-white px-2 py-1">Infoseek Japan</span>
+                <span class="bg-lime-300 border-2 border-white px-2 py-1">GeoCities Japan</span>
+                <span class="bg-pink-300 border-2 border-white px-2 py-1">阿部寛のホームページ風</span>
+            </div>
+            
+            <div class="pt-2 text-gray-400 text-xs">
+                当サイトはリンクフリーです！バナー（88x31ピクセル）はお持ち帰りください。<br>
+                <div class="inline-block mt-2 bg-yellow-400 text-black font-bold px-3 py-1 border border-white">
+                    [ 恵山モンテローザ 88x31 Banner ]
+                </div>
+            </div>
+        </div>
+
+        <!-- Retro Footer -->
+        <div class="text-center text-xs text-gray-400 pt-4 border-t border-gray-700">
+            Copyright (C) 1988-1993 Esan Monte Rosa All Rights Reserved.<br>
+            Powered by HTML 3.2 & Netscape Navigator
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="bg-slate-950 border-t border-gold-500/20 py-12 text-slate-400 text-xs">
@@ -767,49 +932,26 @@
         let isAudioPlaying = false;
         let isRetroMode = false;
 
-        const facilityData = {
-            hotel: {
-                title: "恵山高原ホテル本館",
-                subtitle: "メインホスピタリティタワー",
-                icon: "fa-hotel",
-                description: "バブル全盛期の贅を凝らしたインテリアが各所に施されたメインタワー。エントランスから続く鮮やかなレッドカーペットの廊下、クラシック調の高級調度品、豪華なシャンデリアが至高のステイをお約束します。",
-                details: ["赤カーペット敷きの重厚なロビー", "アンティーク調電話ボックス", "宴会場・大広間完備", "高級客室全100室以上"]
-            },
-            pool: {
-                title: "全天候型ドームプール",
-                subtitle: "室内温水リビエラリゾート",
-                icon: "fa-water-ladder",
-                description: "北の大地北海道にありながら、一年中常夏の温水プールをたのしめるドーム型施設。中央に屹立するヨーロッパ調のミニ凱旋門、壮大な噴水ショーが南国の雰囲気を演出します。",
-                details: ["ドーム型全天候温水プール", "ヨーロッパ風ミニ凱旋門モニュメント", "時限式ダイナミック噴水", "プールサイドカフェテラス"]
-            },
-            monuments: {
-                title: "金龍閣・黄金釈迦涅槃像",
-                subtitle: "純金箔調の豪華建築＆大佛像",
-                icon: "fa-torii-gate",
-                description: "京都の金閣寺を精巧に再現した「金龍閣」と、全長45メートルを誇る超巨大な黄金釈迦涅槃像。当時の最先端技術と巨額の予算が投入された、恵山モンテローザの象徴的モニュメントです。",
-                details: ["金閣寺レプリカ「金龍閣」", "全長45m 黄金釈迦涅槃像", "日本庭園・石灯籠エリア", "日本古来と西洋美の融合"]
-            }
-        };
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
-        }
-
         function toggleRetroMode() {
             isRetroMode = !isRetroMode;
             const body = document.getElementById('appBody');
             const marquee = document.getElementById('retroMarqueeContainer');
             const btnText = document.getElementById('retroBtnText');
+            const modernView = document.getElementById('modernView');
+            const retroView = document.getElementById('retroView');
 
             if (isRetroMode) {
                 body.classList.add('retro-mode');
+                modernView.classList.add('hidden');
+                retroView.classList.remove('hidden');
                 marquee.classList.remove('hidden');
                 btnText.textContent = "現代版Webサイトに戻す";
             } else {
                 body.classList.remove('retro-mode');
+                modernView.classList.remove('hidden');
+                retroView.classList.add('hidden');
                 marquee.classList.add('hidden');
-                btnText.textContent = "90年代当時風サイトに切替";
+                btnText.textContent = "90年代GeoCities風サイトに切替";
             }
         }
 
@@ -822,13 +964,12 @@
             const label = document.getElementById('soundLabel');
 
             if (!isAudioPlaying) {
-                // Play relaxing ambient white noise / low synth frequency
-                startAmbientSound();
+                startSoundtrack();
                 isAudioPlaying = true;
                 icon.className = "fa-solid fa-volume-high text-green-400";
                 label.textContent = "BGM: ON";
             } else {
-                stopAmbientSound();
+                stopSoundtrack();
                 isAudioPlaying = false;
                 icon.className = "fa-solid fa-volume-xmark text-gold-500";
                 label.textContent = "BGM: OFF";
@@ -836,14 +977,67 @@
         }
 
         let synthNodes = [];
+        let chiptuneInterval = null;
+
+        function startSoundtrack() {
+            if (isRetroMode) {
+                start8BitChiptune();
+            } else {
+                startAmbientSound();
+            }
+        }
+
+        function stopSoundtrack() {
+            if (chiptuneInterval) {
+                clearInterval(chiptuneInterval);
+                chiptuneInterval = null;
+            }
+            if (synthNodes.length) {
+                synthNodes.forEach(node => {
+                    try { node.stop(); } catch(e){}
+                });
+                synthNodes = [];
+            }
+        }
+
+        // 8-Bit Retro Chiptune BGM Generator
+        function start8BitChiptune() {
+            if (!audioContext) return;
+            if (audioContext.state === 'suspended') audioContext.resume();
+
+            stopSoundtrack();
+
+            const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23, 392.00, 293.66];
+            let noteIdx = 0;
+
+            chiptuneInterval = setInterval(() => {
+                if (!isAudioPlaying || !isRetroMode) return;
+                
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+
+                osc.type = 'square'; // Classic NES / GameBoy square wave
+                osc.frequency.setValueAtTime(notes[noteIdx], audioContext.currentTime);
+
+                gain.gain.setValueAtTime(0.08, audioContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.18);
+
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+
+                osc.start();
+                osc.stop(audioContext.currentTime + 0.2);
+
+                noteIdx = (noteIdx + 1) % notes.length;
+            }, 220);
+        }
 
         function startAmbientSound() {
             if (!audioContext) return;
-            if (audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
+            if (audioContext.state === 'suspended') audioContext.resume();
 
-            // Create gentle stream sound using noise + lowpass filter
+            stopSoundtrack();
+
             const bufferSize = audioContext.sampleRate * 2;
             const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
             const output = noiseBuffer.getChannelData(0);
@@ -870,11 +1064,26 @@
             synthNodes = [whiteNoise, filter, gain];
         }
 
-        function stopAmbientSound() {
-            if (synthNodes.length) {
-                synthNodes[0].stop();
-                synthNodes = [];
-            }
+        function handleRetroBBS(e) {
+            e.preventDefault();
+            const name = document.getElementById('bbsName').value;
+            const msg = document.getElementById('bbsMsg').value;
+            const bbsList = document.getElementById('bbsList');
+
+            const now = new Date();
+            const dateStr = now.getFullYear() + '/' + (now.getMonth()+1) + '/' + now.getDate();
+            const count = bbsList.children.length + 1;
+
+            const newMsg = document.createElement('div');
+            newMsg.className = "bg-black text-lime-300 p-2 border border-green-600 animate-fade-in";
+            newMsg.innerHTML = `
+                <div class="text-yellow-300 font-bold">[00${count}] 投稿者：${name} 投稿日：${dateStr}</div>
+                <div>${msg}</div>
+            `;
+
+            bbsList.insertBefore(newMsg, bbsList.firstChild);
+            document.getElementById('bbsName').value = '';
+            document.getElementById('bbsMsg').value = '';
         }
 
         function openFacilityModal(key) {
